@@ -34,13 +34,13 @@ PHP, Hypertext Preprocessor超文本预处理器
 
 标量：布尔，字符串，整形，浮点数
 
-符合类型：　数组，对象，callable(回调类型)
+复合类型：　数组，对象，callable(回调类型)
 
 特殊：null和资源
 
 
 
-### ３．函数
+### 3. 函数
 
  ##### 函数中的函数
 
@@ -107,17 +107,15 @@ $func('test');  // This calls bar()
 ?>
 ```
 
-### 访问控制
+### 4.类与对象
+
+##### 访问控制
 
 对属性或方法的访问控制，是通过在前面添加关键字 *public*（公有），*protected*（受保护）或 *private*（私有）来实现的。被定义为公有的类成员可以在任何地方被访问。被定义为受保护的类成员则可以被其自身以及其子类和父类访问。被定义为私有的类成员则只能被其定义所在的类访问
 
 类属性必须定义为公有，受保护，私有之一。如果用 *var* 定义，则被视为公有。
 
 类中的方法可以被定义为公有，私有或受保护。如果没有设置这些关键字，则该方法默认为公有。
-
-
-
-###　抽象类和接口
 
 ##### 抽象类
 
@@ -258,3 +256,48 @@ output:
 所有php里面的值都可以使用函数[serialize()](https://www.php.net/manual/zh/function.serialize.php)来返回一个包含字节流的字符串来表示。[unserialize()](https://www.php.net/manual/zh/function.unserialize.php)函数能够重新把字符串变回php原来的值。 序列化一个对象将会保存对象的所有变量，但是不会保存对象的方法，只会保存类的名字。
 
 反序列化之前必须包含原本的类的定义
+
+
+
+##### 命名空间
+
+定义: 命名空间是封装的一种方法, 类似与操作系统的文件目录,不同的目录可以存在相同的文件.
+
+解决了什么问题：
+
+1. 用户编写的代码与PHP内部的类/函数/常量或第三方类/函数/常量之间的名字冲突。
+2. 为很长的标识符名称(通常是为了缓解第一类问题而定义的)创建一个别名（或简短）的名称，提高源代码的可读性。
+
+使用,类似目录:
+
+1. 非限定名称, 例如 *$a=new foo();* 或 *foo::staticmethod();*。如果当前命名空间是 *currentnamespace*，foo 将被解析为 *currentnamespace\foo*
+
+2. 限定名称, 例如 *$a = new subnamespace\foo();* 或 *subnamespace\foo::staticmethod();*。如果当前的命名空间是 *currentnamespace*，则 foo 会被解析为 *currentnamespace\subnamespace\foo*
+3. 完全限定名称, 例如， *$a = new \currentnamespace\foo();* 或 *\currentnamespace\foo::staticmethod();*。在这种情况下，foo 总是被解析为代码中的文字名(literal name)*currentnamespace\foo
+
+导入
+
+允许通过别名引用或导入外部的完全限定名称,
+
+```
+use My\Full\Classname as Another;
+```
+
+##### 安全
+
+sql注入攻击
+
+防止: 
+
++ 数据库权限
++ 不要相信任何用户的输入
++ 对于所有用户输入的数据进行校验, 比如类型, 范围
++ 采用安全的查询机制, 比如tp中的数组查询而不是字符串查询
+
+
+
+#####　垃圾回收
+
+引用计数机制，
+
+如果出现循环引用使用根缓冲区回收周期来模拟删除进行回收
