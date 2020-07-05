@@ -12,6 +12,7 @@
 ### 变量
 
 1. 标识名 
+
    + 字母或者下划线开始, 注意,非数字开头
    + 包内大写字母开头表示包外部可以访问, 小写则不可以
    + 驼峰命名
@@ -44,6 +45,7 @@
 
    + 允许元组复制 比如x,y = y, x(类似python)
    + 允许元组复制 比如x,y = y, x(类似python)
+
 ### 类型
 
 ```go
@@ -114,8 +116,8 @@ true或者false
 
     ```go
     const (
-    	a = 0
-    	b = 1
+      a = 0
+      b = 1
     )
     ```
 
@@ -178,3 +180,81 @@ a := []int{1,4,6} // 不指定长度则为切片
 delete(m, "key") //删除
 ```
 
+
+
+### 指针
+
+to-do
+
+
+
+### json
+
+定义：json是一种用于发送和接受结构化信息的标准协议， 类似xml等
+
+特点：
+
+1. tag，可以简单处理及转换字段
+2. 使用结构体可以选择性接受部分字段
+
+使用：
+
+1. 数据结构与json的转换
+
+```go
+// 1. 转换成json, Marshal()
+data, err = json.Marshal(movies) //或者Marshalindent(), 可读性更好
+fmt.Printf("%s", data)
+// 这里有一点疑惑，打印typeof(data), 结果是[]uint8 ???
+
+// 2. json转换成对象, Unmarshal()
+var titles []struct { Title string}
+  if err := json.Unmarshal(data, &titles); err != nil{
+    log.Fatalf("error, %s", err)
+}
+fmt.Println(titles)
+```
+
+
+
+
+
+## 函数
+
+定义：
+
+```go
+func funcName(arg-list) (result-list) {
+  // do something 
+} 
+```
+
+特点：
+
+1. 支持递归
+
+2. bare return, 如果一个函数将所有的返回值都显示的变量名，那么该函数的return语句可以省略操作数
+
+3. 错误， 在Go中，函数运行失败时会返回错误信息，这些错误信息被认为是一种预期的值而非异常（exception），这使得Go有别于那些将函数运行失败看作是异常的语言
+
+4. 函数值，函数被看作第一类值（first-class values）：函数像其他值一样，拥有类型，可以被赋值给其他变量，传递给函数，从函数返回
+
+5. 支持闭包，匿名函数，类似php
+
+6. 可变参数, 在声明可变参数函数时，需要在参数列表的最后一个参数类型之前加上省略符号“...”，这表示该函数会接收任意数量的该类型参数。
+
+   ```go
+   func funcName(args...int)
+   ```
+
+7. defer 关键字
+
+   定义：当defer语句被执行时，跟在defer后面的函数会被延迟执行。直到包含该defer语句的函数执行完毕时，defer后的函数才会被执行，不论包含defer语句的函数是通过return正常结束，还是由于panic导致的异常结束。你可以在一个函数中执行多条defer语句，它们的执行顺序与声明顺序相反
+
+   作用：defer语句经常被用于处理成对的操作，如打开、关闭、连接、断开连接、加锁、释放锁
+
+   ```go
+   defer resp.Body.Close()
+   ```
+
+8. panic异常
