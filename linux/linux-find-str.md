@@ -22,6 +22,7 @@ grep test *.log
 ###  2. find指定目录查找文件
 
 ```
+find filepath [args] 
 -name　指定文件名
 -iname 不区分大小写
 -type 指定类型　d/f 目录与普通文件
